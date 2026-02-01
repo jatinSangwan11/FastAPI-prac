@@ -1,3 +1,4 @@
+from math import prod
 from fastapi import FastAPI
 from models import Product
 
@@ -31,3 +32,18 @@ products = [
 def get_all_products():
     return products
 
+
+@app.get("/product/{id}")
+def get_product_by_id(id: int):
+    """ Need to add data validation as it might be possible that product is missing """
+    for product in products:
+        if(product.id == id):
+            return product
+    return f"there is not product with the {id}"
+
+# add product
+
+@app.post("/product")
+def add_product(product: Product):
+    products.append(product)
+    return product
